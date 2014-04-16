@@ -1,13 +1,19 @@
 #include "vm.h"
+#include "compiler.h"
 #include <iostream>
-
+#include <vector>
 
 int main()
 {
 
 	VM v;
-	char c[] = {};
-	v.Execute(c, 9);
+	Compiler cp;
+	vector<char> c;
+	c = cp.Compile("./test.burr");
+
+	v.Execute(c, c.size());
+
+	getchar();
 
 	return 0;
 }

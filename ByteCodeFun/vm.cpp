@@ -1,8 +1,10 @@
 #include "vm.h"
 #include <iostream>
 
-void VM::Execute(char* data, int len)
+void VM::Execute(vector<char> data, int len)
 {
+	
+
 	for (int i = 0; i < len; i++)
 	{
 		char dat = data[i];
@@ -11,25 +13,19 @@ void VM::Execute(char* data, int len)
 			case INST_LITERAL:
 				push(data[++i]);
 				break;
-/*
 
-			case INST_PRINT:
+
+			case INST_PRINTRES:
 			{
-					if (_stackSize <= 0)
-					{
-						cout << "SWAG" << endl;
-						break;
-					}
 				cout << "\"" << pop() << "\"" << endl;
 				break;
 			}
-			*/
+			
 
 			case INST_ADD:
 			{
 				int add1 = pop();
 				int add2 = pop();
-				cout << add1 + add2 << endl;
 				push(add1 + add2);
 				break;
 			}

@@ -2,14 +2,14 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <vector>
+#include <sstream>
 #include "vm.h"
 
 using namespace std;
 
 vector<string> Parse(string);
 
-char* Compiler::Compile(const char* path)
+vector<char> Compiler::Compile(const char* path)
 {
 	ifstream file;
 	file.open(path);
@@ -24,23 +24,33 @@ char* Compiler::Compile(const char* path)
 
 	vector<string> prsd = Parse(org);
 	
-	
-	int pos = 0;
-	char res[VM::MAX_STACK];
+	vector<char> res;
 
-	for (int i = 0; i < prsd.size(); i++)
+	for (unsigned int i = 0; i < prsd.size(); i++)
 	{
-		string s = prsd[i];
 
-		if (s == "+"){
-			res[pos++] = 0x00;
-			res[pos++] = stoi(prsd[i++]);
-			res[pos++] = 0x01;
-			continue;
+		try{
+			string s = prsd[i];
+
+			if (s == "+"){
+				res.push_back(0x00);
+				res.push_back(stoi(prsd[++i]));
+				res.push_back(0x01);
+				continue;
+			}
+
+			if (s == "p")
+			{
+				res.push_back(0x05);
+				continue;
+			}
+
+			res.push_back(0x00);
+			res.push_back(stoi(s));
 		}
-
-		res[pos++] = 0x00;
-		res[pos++] = stoi(s);
+		catch (exception& e){
+			cerr << "Error occured: " << e.what() << endl;
+		}
 
 	}
 
@@ -51,13 +61,23 @@ char* Compiler::Compile(const char* path)
 vector<string> Parse(string org)
 {
 	vector<string> res;
+	string word;
 
-	for (int i = 0; i < org.length(); i++)
+	for (unsigned int i = 0; i < org.length(); i++)
 	{
 		if (org[i] != ' ')
-			res.push_back(org[i]);
-	}
+		{	
+			word += org[i];
+		}
+		else
+		{
+			res.push_back(word);
+			word.clear();
+			continue;
+		}
 
+	}
 	
+	res.push_back(word);
 	return res;
 }

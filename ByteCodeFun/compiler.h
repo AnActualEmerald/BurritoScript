@@ -1,10 +1,13 @@
 #pragma once
+#include <vector>
+
+using namespace std;
+
 class Compiler
 {
 public:
-	Compiler() {}
-	~Compiler() {}
 
-	char* Compile(const char* path);
+	vector<char> Compile(const char* path);
+
 };
 

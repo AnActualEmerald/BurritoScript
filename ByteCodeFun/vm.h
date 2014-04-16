@@ -1,5 +1,6 @@
 #pragma once
 #include <cassert>
+#include <vector>
 
 using namespace std;
 
@@ -11,7 +12,7 @@ public:
 	{}
 	~VM() {}
 
-	void Execute(char* bytes, int len);
+	void Execute(vector<char> bytes, int len);
 
 	void push(char inf)
 	{
@@ -37,7 +38,8 @@ private:
 		INST_ADD = 0x01,
 		INST_SUB = 0x02,
 		INST_MULT = 0x03,
-		INST_DIV = 0x04
+		INST_DIV = 0x04,
+		INST_PRINTRES = 0x05
 
 	};
 
